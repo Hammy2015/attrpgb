@@ -1,0 +1,38 @@
+import discord
+import magic_items as mi
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = discord.Client(intents=intents)
+
+FOLDER_PATH = '/home/hammy2015/mysite/attrpgb'
+
+key = open(FOLDER_PATH + "/disckey.txt","r")
+
+keystring = key.read()
+
+@client.event
+async def on_ready():
+    print(f'We have logged in as {client.user}')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.content.startswith('!attrpgb'):
+        await message.channel.send('Hello! This is the attrpgb bot. How can I assist you today?')
+
+    if message.content.startswith('!mig'):
+        price = int(message.content.split()[-1])
+        tier = message.content.split()[-2]
+        print(message.content.split()[-1] + ' ' + tier)
+        if tier == '$mig':
+            item = mi.mig(price)
+        else:
+            item = mi.mig(price,tier)
+        await message.channel.send(item)
+
+
+client.run(keystring)
