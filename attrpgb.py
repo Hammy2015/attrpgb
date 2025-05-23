@@ -35,4 +35,13 @@ async def on_message(message):
         await message.channel.send(item)
 
 
+    if message.content.startswith('!roll'):
+        dice_sides = int(message.content.split()[1].split('d')[1])
+        num_dice = int(message.content.split()[1].split('d')[0])
+        if message.content.contains('+'):
+            roll_mod = int(message.content.split('+')[1])
+        elif message.content.contains('-'):
+            roll_mod = -int(message.content.split('-')[1])
+        
+
 client.run(keystring)
